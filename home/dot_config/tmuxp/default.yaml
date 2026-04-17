@@ -1,0 +1,15 @@
+session_name: main
+windows:
+  - window_name: editor
+    layout: main-vertical
+    panes:
+      - shell_command:
+          - nvim
+      - shell_command:
+          - yazi
+  - window_name: ops
+    panes:
+      - shell_command:
+          - lazygit
+      - shell_command:
+          - lazydocker
