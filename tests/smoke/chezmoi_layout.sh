@@ -20,53 +20,35 @@ done
   exit 1
 }
 
-grep -q '\.machine\.defaults\.profile' home/.chezmoiignore.tmpl || {
-  echo "home/.chezmoiignore.tmpl must read .machine.defaults.profile" >&2
+command -v chezmoi >/dev/null 2>&1 || {
+  echo "chezmoi is required for tests/smoke/chezmoi_layout.sh" >&2
   exit 1
 }
 
-grep -q 'index \.features\.defaults \$profile' home/.chezmoiignore.tmpl || {
-  echo "home/.chezmoiignore.tmpl must read profile defaults from .features.defaults" >&2
+source_dir="$PWD/home"
+template_file="$source_dir/.chezmoiignore.tmpl"
+
+default_render=$(chezmoi execute-template --file -S "$source_dir" "$template_file" | sed '/^$/d')
+[ -z "$default_render" ] || {
+  echo "default profile should not ignore enabled full-profile tools" >&2
   exit 1
 }
 
-grep -q 'if not \$profileDefaults' home/.chezmoiignore.tmpl || {
-  echo "home/.chezmoiignore.tmpl must fall back when a profile override has no defaults" >&2
+minimal_render=$(chezmoi execute-template --file -S "$source_dir" --override-data '{"profile":"minimal"}' "$template_file" | sed '/^$/d')
+expected_minimal=$(cat <<'EOF'
+.config/ghostty/**
+.config/lazydocker/**
+.config/yazi/**
+EOF
+)
+[ "$minimal_render" = "$expected_minimal" ] || {
+  echo "minimal profile render mismatch" >&2
+  printf '%s\n' "$minimal_render" >&2
   exit 1
 }
 
-grep -q 'hasKey \. \"features\"' home/.chezmoiignore.tmpl || {
-  echo "home/.chezmoiignore.tmpl must allow later feature overrides" >&2
+override_render=$(chezmoi execute-template --file -S "$source_dir" --override-data '{"profile":"minimal","features":{"gui":true,"docker":true,"yazi":true}}' "$template_file" | sed '/^$/d')
+[ -z "$override_render" ] || {
+  echo "explicit feature overrides must win over minimal defaults" >&2
   exit 1
 }
-
-if command -v chezmoi >/dev/null 2>&1; then
-  source_dir="$PWD/home"
-  template_file="$source_dir/.chezmoiignore.tmpl"
-
-  default_render=$(chezmoi execute-template --file -S "$source_dir" "$template_file")
-  [ -z "$default_render" ] || {
-    echo "default profile should not ignore enabled full-profile tools" >&2
-    exit 1
-  }
-
-  minimal_render=$(chezmoi execute-template --file -S "$source_dir" --override-data '{"profile":"minimal"}' "$template_file")
-  printf '%s\n' "$minimal_render" | grep -qx '.config/ghostty/\*\*' || {
-    echo "minimal profile should ignore ghostty by default" >&2
-    exit 1
-  }
-  printf '%s\n' "$minimal_render" | grep -qx '.config/lazydocker/\*\*' || {
-    echo "minimal profile should ignore lazydocker by default" >&2
-    exit 1
-  }
-  printf '%s\n' "$minimal_render" | grep -qx '.config/yazi/\*\*' || {
-    echo "minimal profile should ignore yazi by default" >&2
-    exit 1
-  }
-
-  override_render=$(chezmoi execute-template --file -S "$source_dir" --override-data '{"profile":"minimal","features":{"gui":true,"docker":true,"yazi":true}}' "$template_file")
-  [ -z "$override_render" ] || {
-    echo "explicit feature overrides must win over minimal defaults" >&2
-    exit 1
-  }
-fi
