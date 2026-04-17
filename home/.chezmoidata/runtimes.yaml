@@ -1,0 +1,8 @@
+go: latest
+node: lts
+python: "3.13"
+rust: stable
+uv: latest
+bun: latest
+kubectl: latest
+terramate: latest

@@ -1,0 +1,8 @@
+defaults:
+  profile: full
+  role: workstation
+roles:
+  workstation:
+    gui: true
+  server:
+    gui: false

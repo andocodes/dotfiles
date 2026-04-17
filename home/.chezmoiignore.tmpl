@@ -1,0 +1,13 @@
+{{- if not (index .features "gui") }}
+.config/ghostty/**
+{{- end }}
+{{- if not (index .features "docker") }}
+.config/lazydocker/**
+{{- end }}
+{{- if not (index .features "yazi") }}
+.config/yazi/**
+{{- end }}
+{{- if eq .profile "minimal" }}
+.config/ghostty/**
+.config/lazydocker/**
+{{- end }}

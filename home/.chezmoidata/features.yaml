@@ -1,0 +1,17 @@
+defaults:
+  full:
+    gui: true
+    docker: true
+    ai: true
+    k8s: true
+    yazi: true
+    tailscale: true
+    tailscale-ssh: false
+  minimal:
+    gui: false
+    docker: false
+    ai: false
+    k8s: false
+    yazi: false
+    tailscale: false
+    tailscale-ssh: false
