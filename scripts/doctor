@@ -67,10 +67,10 @@ need python
 need rustc
 need uv
 need bun
-need kubectl
 need terramate
 
 if [ "$profile" = "full" ]; then
+  need kubectl
   need yazi
   need lazydocker
   need tailscale

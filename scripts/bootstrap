@@ -43,6 +43,38 @@ have() {
   command -v "$1" >/dev/null 2>&1
 }
 
+write_managed_config() {
+  cat <<EOF
+[data]
+profile = "$profile"
+role = "workstation"
+
+[data.features]
+gui = $gui
+docker = $docker
+ai = $ai
+k8s = $k8s
+yazi = $yazi
+tailscale = $tailscale
+tailscale-ssh = $tailscale_ssh
+EOF
+}
+
+strip_managed_config() {
+  awk '
+    /^\[data([.][^]]+)?\]$/ {
+      skip = 1
+      next
+    }
+    /^\[/ {
+      skip = 0
+    }
+    !skip {
+      print
+    }
+  ' "$1"
+}
+
 script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 repo_root=$(CDPATH= cd -- "$script_dir/.." && pwd)
 
@@ -79,6 +111,7 @@ fi
 
 config_home="${XDG_CONFIG_HOME:-$HOME/.config}"
 chezmoi_config_dir="$config_home/chezmoi"
+chezmoi_config_file="$chezmoi_config_dir/chezmoi.toml"
 mkdir -p "$chezmoi_config_dir"
 
 if [ "$profile" = "minimal" ]; then
@@ -99,20 +132,21 @@ else
   tailscale_ssh=false
 fi
 
-cat > "$chezmoi_config_dir/chezmoi.toml" <<EOF
-[data]
-profile = "$profile"
-role = "workstation"
+tmp_config=$(mktemp "${TMPDIR:-/tmp}/chezmoi-config.XXXXXX")
+trap 'rm -f "$tmp_config"' EXIT HUP INT TERM
 
-[data.features]
-gui = $gui
-docker = $docker
-ai = $ai
-k8s = $k8s
-yazi = $yazi
-tailscale = $tailscale
-tailscale-ssh = $tailscale_ssh
-EOF
+if [ -f "$chezmoi_config_file" ]; then
+  strip_managed_config "$chezmoi_config_file" > "$tmp_config"
+else
+  : > "$tmp_config"
+fi
+
+if [ -s "$tmp_config" ]; then
+  printf '\n' >> "$tmp_config"
+fi
+write_managed_config >> "$tmp_config"
+mv "$tmp_config" "$chezmoi_config_file"
+trap - EXIT HUP INT TERM
 
 chezmoi init --apply "$repo_root"
 sh "$script_dir/doctor" --profile "$profile" --dry-run
