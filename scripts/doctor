@@ -1,0 +1,64 @@
+#!/bin/sh
+set -eu
+
+usage() {
+  cat <<'USAGE'
+Usage: sh scripts/doctor [--profile full|minimal] [--dry-run]
+USAGE
+}
+
+profile="full"
+dry_run=0
+
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    --profile)
+      profile="${2:?missing profile value}"
+      shift 2
+      ;;
+    --dry-run)
+      dry_run=1
+      shift
+      ;;
+    --help|-h)
+      usage
+      exit 0
+      ;;
+    *)
+      echo "unknown argument: $1" >&2
+      usage >&2
+      exit 1
+      ;;
+  esac
+done
+
+need() {
+  if command -v "$1" >/dev/null 2>&1; then
+    printf 'ok %s\n' "$1"
+  else
+    printf 'missing %s\n' "$1" >&2
+    [ "$dry_run" -eq 1 ] || exit 1
+  fi
+}
+
+need git
+need zsh
+need tmux
+need chezmoi
+need mise
+need nvim
+need lazygit
+need go
+need node
+need python
+need rustc
+need uv
+need bun
+need kubectl
+need terramate
+
+if [ "$profile" = "full" ]; then
+  need yazi
+  need lazydocker
+  need tailscale
+fi

@@ -1,0 +1,104 @@
+#!/bin/sh
+set -eu
+
+usage() {
+  cat <<'USAGE'
+Usage: sh scripts/bootstrap [--profile full|minimal]
+USAGE
+}
+
+profile="full"
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    --profile)
+      profile="${2:?missing profile value}"
+      shift 2
+      ;;
+    --help|-h)
+      usage
+      exit 0
+      ;;
+    *)
+      echo "unknown argument: $1" >&2
+      usage >&2
+      exit 1
+      ;;
+  esac
+done
+
+have() {
+  command -v "$1" >/dev/null 2>&1
+}
+
+if ! have git; then
+  echo "git is required before bootstrap" >&2
+  exit 1
+fi
+
+if ! have curl && ! have wget; then
+  echo "curl or wget is required before bootstrap" >&2
+  exit 1
+fi
+
+if ! have chezmoi; then
+  mkdir -p "$HOME/.local/bin"
+  case "$(uname -s)" in
+    Darwin)
+      if ! have brew; then
+        echo "Homebrew is required on macOS before bootstrap" >&2
+        exit 1
+      fi
+      brew install chezmoi
+      ;;
+    *)
+      if have curl; then
+        sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "$HOME/.local/bin"
+      else
+        wget -qO- get.chezmoi.io | sh -s -- -b "$HOME/.local/bin"
+      fi
+      PATH="$HOME/.local/bin:$PATH"
+      ;;
+  esac
+fi
+
+config_home="${XDG_CONFIG_HOME:-$HOME/.config}"
+chezmoi_config_dir="$config_home/chezmoi"
+mkdir -p "$chezmoi_config_dir"
+
+if [ "$profile" = "minimal" ]; then
+  gui=false
+  docker=false
+  ai=false
+  k8s=false
+  yazi=false
+  tailscale=false
+  tailscale_ssh=false
+else
+  gui=true
+  docker=true
+  ai=true
+  k8s=true
+  yazi=true
+  tailscale=true
+  tailscale_ssh=false
+fi
+
+cat > "$chezmoi_config_dir/chezmoi.toml" <<EOF
+[data]
+profile = "$profile"
+role = "workstation"
+
+[data.features]
+gui = $gui
+docker = $docker
+ai = $ai
+k8s = $k8s
+yazi = $yazi
+tailscale = $tailscale
+tailscale-ssh = $tailscale_ssh
+EOF
+
+chezmoi init --apply "$PWD"
+if have mise; then
+  mise run doctor -- --profile "$profile" --dry-run || true
+fi
