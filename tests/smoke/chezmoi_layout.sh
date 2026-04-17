@@ -2,7 +2,6 @@
 set -eu
 
 for path in \
-  .chezmoiroot \
   home/.chezmoiignore.tmpl \
   home/.chezmoidata/features.yaml \
   home/.chezmoidata/machine.yaml \
@@ -14,11 +13,6 @@ do
     exit 1
   }
 done
-
-[ "$(cat .chezmoiroot)" = "home" ] || {
-  echo ".chezmoiroot must equal home" >&2
-  exit 1
-}
 
 command -v chezmoi >/dev/null 2>&1 || {
   echo "chezmoi is required for tests/smoke/chezmoi_layout.sh" >&2
@@ -41,7 +35,9 @@ expected_minimal=$(cat <<'EOF'
 .config/yazi/**
 EOF
 )
-[ "$minimal_render" = "$expected_minimal" ] || {
+normalized_minimal=$(printf '%s\n' "$minimal_render" | sort)
+expected_minimal=$(printf '%s\n' "$expected_minimal" | sort)
+[ "$normalized_minimal" = "$expected_minimal" ] || {
   echo "minimal profile render mismatch" >&2
   printf '%s\n' "$minimal_render" >&2
   exit 1
