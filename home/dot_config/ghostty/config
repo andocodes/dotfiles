@@ -1,0 +1,5 @@
+font-size = 13
+theme = tokyo-night-storm
+window-padding-x = 6
+window-padding-y = 6
+confirm-close-surface = false

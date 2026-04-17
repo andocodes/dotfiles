@@ -1,0 +1,7 @@
+[manager]
+show_hidden = true
+sort_by = "alphabetical"
+sort_sensitive = false
+
+[preview]
+tab_size = 2
