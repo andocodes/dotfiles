@@ -2,15 +2,14 @@
 
 tmux-first, XDG-first dotfiles for macOS and Linux.
 
-## Bootstrap
+## Current status
 
-```sh
-gh repo clone andocodes/dotfiles ~/Projects/dotfiles
-cd ~/Projects/dotfiles
-./scripts/bootstrap
-```
+Task 1 establishes the repository scaffold and supporting docs.
 
-## Profiles
+Bootstrap automation and profile selection are planned for later tasks and are not implemented in this checkout yet.
 
-- `full`
-- `minimal`
+## Repository layout
+
+- `home/` is tracked with placeholders so future chezmoi-managed files ship in fresh clones and CI checkouts.
+- `scripts/` is reserved for future automation entrypoints and currently contains placeholders only.
+- `docs/` captures the current architecture notes and the planned bootstrap direction.

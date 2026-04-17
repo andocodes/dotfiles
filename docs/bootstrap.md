@@ -1,5 +1,9 @@
 # Bootstrap
 
-Bootstrap installs the minimum required tooling and then hands off to chezmoi and mise-managed tasks.
+Task 1 does not ship a `./scripts/bootstrap` command yet.
 
-Bootstrap writes the local chezmoi profile and feature data before the first apply so templates can render immediately.
+This document records the planned direction for a later task:
+
+- install the minimum required tooling
+- hand off to chezmoi and mise-managed tasks
+- write local chezmoi profile and feature data before the first apply
