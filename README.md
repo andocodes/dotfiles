@@ -2,14 +2,35 @@
 
 tmux-first, XDG-first dotfiles for macOS and Linux.
 
-## Current status
+## Stack
 
-Task 1 establishes the repository scaffold and supporting docs.
+- chezmoi
+- zsh
+- tmux
+- LazyVim
+- Yazi
+- lazygit
+- lazydocker
+- mise
+- Tailscale
 
-Bootstrap automation and profile selection are planned for later tasks and are not implemented in this checkout yet.
+## Bootstrap
 
-## Repository layout
+```sh
+gh repo clone andocodes/dotfiles ~/Projects/dotfiles
+cd ~/Projects/dotfiles
+./scripts/bootstrap --profile full
+```
 
-- `home/` is tracked with placeholders so future chezmoi-managed files ship in fresh clones and CI checkouts.
-- `scripts/` is reserved for future automation entrypoints and currently contains placeholders only.
-- `docs/` captures the current architecture notes and the planned bootstrap direction.
+## Profiles
+
+- `full`: install the complete supported experience for the current machine
+- `minimal`: install only the lean survival stack
+
+## Useful Commands
+
+```sh
+mise run doctor -- --profile full
+mise run test-phase1
+chezmoi apply
+```

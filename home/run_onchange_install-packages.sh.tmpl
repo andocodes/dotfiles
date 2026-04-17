@@ -1,0 +1,107 @@
+#!/bin/sh
+set -eu
+
+os="$(uname -s)"
+
+case "$os" in
+  Darwin)
+{{- range (index .packages "darwin" "core") }}
+    brew install {{ . }}
+{{- end }}
+{{- if index .features "yazi" }}
+{{- range (index .packages "darwin" "tui") }}
+    brew install {{ . }}
+{{- end }}
+{{- end }}
+{{- if index .features "docker" }}
+{{- range (index .packages "darwin" "docker") }}
+    brew install {{ . }}
+{{- end }}
+{{- end }}
+{{- if index .features "tailscale" }}
+{{- range (index .packages "darwin" "tailscale") }}
+    brew install {{ . }}
+{{- end }}
+{{- end }}
+{{- range (index .packages "darwin" "runtimes") }}
+    brew install {{ . }}
+{{- end }}
+    ;;
+  Linux)
+    if command -v apt-get >/dev/null 2>&1; then
+      sudo apt-get update
+{{- range (index .packages "debian" "core") }}
+      sudo apt-get install -y {{ . }}
+{{- end }}
+{{- if index .features "yazi" }}
+{{- range (index .packages "debian" "tui") }}
+      sudo apt-get install -y {{ . }}
+{{- end }}
+{{- end }}
+{{- if index .features "docker" }}
+{{- range (index .packages "debian" "docker") }}
+      sudo apt-get install -y {{ . }}
+{{- end }}
+{{- end }}
+{{- if index .features "tailscale" }}
+{{- range (index .packages "debian" "tailscale") }}
+      sudo apt-get install -y {{ . }}
+{{- end }}
+{{- end }}
+{{- range (index .packages "debian" "runtimes") }}
+      sudo apt-get install -y {{ . }}
+{{- end }}
+    elif command -v dnf >/dev/null 2>&1; then
+{{- range (index .packages "fedora" "core") }}
+      sudo dnf install -y {{ . }}
+{{- end }}
+{{- if index .features "yazi" }}
+{{- range (index .packages "fedora" "tui") }}
+      sudo dnf install -y {{ . }}
+{{- end }}
+{{- end }}
+{{- if index .features "docker" }}
+{{- range (index .packages "fedora" "docker") }}
+      sudo dnf install -y {{ . }}
+{{- end }}
+{{- end }}
+{{- if index .features "tailscale" }}
+{{- range (index .packages "fedora" "tailscale") }}
+      sudo dnf install -y {{ . }}
+{{- end }}
+{{- end }}
+{{- range (index .packages "fedora" "runtimes") }}
+      sudo dnf install -y {{ . }}
+{{- end }}
+    elif command -v pacman >/dev/null 2>&1; then
+{{- range (index .packages "arch" "core") }}
+      sudo pacman -S --noconfirm {{ . }}
+{{- end }}
+{{- if index .features "yazi" }}
+{{- range (index .packages "arch" "tui") }}
+      sudo pacman -S --noconfirm {{ . }}
+{{- end }}
+{{- end }}
+{{- if index .features "docker" }}
+{{- range (index .packages "arch" "docker") }}
+      sudo pacman -S --noconfirm {{ . }}
+{{- end }}
+{{- end }}
+{{- if index .features "tailscale" }}
+{{- range (index .packages "arch" "tailscale") }}
+      sudo pacman -S --noconfirm {{ . }}
+{{- end }}
+{{- end }}
+{{- range (index .packages "arch" "runtimes") }}
+      sudo pacman -S --noconfirm {{ . }}
+{{- end }}
+    else
+      echo "unsupported Linux package manager" >&2
+      exit 1
+    fi
+    ;;
+  *)
+    echo "unsupported OS: $os" >&2
+    exit 1
+    ;;
+esac

@@ -1,9 +1,16 @@
 # Bootstrap
 
-Task 1 does not ship a `./scripts/bootstrap` command yet.
+## Supported package managers
 
-This document records the planned direction for a later task:
+- Homebrew
+- apt
+- dnf
+- pacman
 
-- install the minimum required tooling
-- hand off to chezmoi and mise-managed tasks
-- write local chezmoi profile and feature data before the first apply
+## First-run flow
+
+1. Clone the repo.
+2. Run `./scripts/bootstrap --profile full`.
+3. Confirm the generated local chezmoi profile in `~/.config/chezmoi/chezmoi.toml`.
+4. Run `mise install`.
+5. Run `mise run test-phase1`.

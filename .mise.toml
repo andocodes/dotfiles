@@ -21,3 +21,15 @@ sh tests/smoke/chezmoi_layout.sh
 sh tests/smoke/scripts.sh
 sh tests/smoke/mise.sh
 """
+
+[tasks.test-phase1]
+run = """
+sh tests/smoke/repo_layout.sh
+sh tests/smoke/chezmoi_layout.sh
+sh tests/smoke/scripts.sh
+sh tests/smoke/mise.sh
+sh tests/smoke/zsh.sh
+sh tests/smoke/tmux.sh
+sh tests/smoke/tools.sh
+sh tests/smoke/packages.sh
+"""
