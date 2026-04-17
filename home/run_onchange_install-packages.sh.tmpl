@@ -99,6 +99,21 @@ case "$os" in
       echo "unsupported Linux package manager" >&2
       exit 1
     fi
+
+    mkdir -p "$HOME/.local/bin"
+    if ! command -v starship >/dev/null 2>&1; then
+      tmp_starship_installer="$(mktemp "${TMPDIR:-/tmp}/starship-install.XXXXXX")"
+      trap 'rm -f "$tmp_starship_installer"' EXIT HUP INT TERM
+      if curl -fsSL https://starship.rs/install.sh -o "$tmp_starship_installer"; then
+        if ! sh "$tmp_starship_installer" -y -b "$HOME/.local/bin"; then
+          echo "warning: failed to install starship fallback" >&2
+        fi
+      else
+        echo "warning: curl could not fetch the starship installer" >&2
+      fi
+      rm -f "$tmp_starship_installer"
+      trap - EXIT HUP INT TERM
+    fi
     ;;
   *)
     echo "unsupported OS: $os" >&2

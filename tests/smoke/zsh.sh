@@ -16,3 +16,5 @@ done
 zsh -n home/dot_zshenv.tmpl
 zsh -n home/dot_config/zsh/dot_zshrc
 zsh -n home/dot_config/zsh/aliases.zsh
+
+grep -q '\.local/bin' home/dot_zshenv.tmpl
