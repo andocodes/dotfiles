@@ -52,11 +52,6 @@ if ! have git; then
 fi
 
 if ! have chezmoi; then
-  if ! have curl && ! have wget; then
-    echo "curl or wget is required before bootstrap" >&2
-    exit 1
-  fi
-
   mkdir -p "$HOME/.local/bin"
   case "$(uname -s)" in
     Darwin)
@@ -67,6 +62,11 @@ if ! have chezmoi; then
       brew install chezmoi
       ;;
     *)
+      if ! have curl && ! have wget; then
+        echo "curl or wget is required before bootstrap" >&2
+        exit 1
+      fi
+
       if have curl; then
         sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "$HOME/.local/bin"
       else
