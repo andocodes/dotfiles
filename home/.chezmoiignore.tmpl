@@ -1,23 +1,25 @@
-{{- $profile := .machine.defaults.profile -}}
-{{- if .profile -}}
+{{- $profile := .defaults.profile -}}
+{{- if hasKey . "profile" -}}
 {{- $profile = .profile -}}
 {{- end -}}
-{{- $profileDefaults := index .features.defaults $profile -}}
+{{- $profileDefaults := index .defaults $profile -}}
 {{- if not $profileDefaults -}}
-{{- $profile = .machine.defaults.profile -}}
-{{- $profileDefaults = index .features.defaults $profile -}}
+{{- $profile = .defaults.profile -}}
+{{- $profileDefaults = index .defaults $profile -}}
 {{- end -}}
 {{- $gui := index $profileDefaults "gui" -}}
+{{- $docker := index $profileDefaults "docker" -}}
+{{- $yazi := index $profileDefaults "yazi" -}}
+{{- if hasKey . "features" -}}
 {{- if hasKey .features "gui" -}}
 {{- $gui = index .features "gui" -}}
 {{- end -}}
-{{- $docker := index $profileDefaults "docker" -}}
 {{- if hasKey .features "docker" -}}
 {{- $docker = index .features "docker" -}}
 {{- end -}}
-{{- $yazi := index $profileDefaults "yazi" -}}
 {{- if hasKey .features "yazi" -}}
 {{- $yazi = index .features "yazi" -}}
+{{- end -}}
 {{- end -}}
 {{- if not $gui }}
 .config/ghostty/**
