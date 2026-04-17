@@ -3,6 +3,10 @@
 {{- $profile = .profile -}}
 {{- end -}}
 {{- $profileDefaults := index .features.defaults $profile -}}
+{{- if not $profileDefaults -}}
+{{- $profile = .machine.defaults.profile -}}
+{{- $profileDefaults = index .features.defaults $profile -}}
+{{- end -}}
 {{- $gui := index $profileDefaults "gui" -}}
 {{- if hasKey .features "gui" -}}
 {{- $gui = index .features "gui" -}}
