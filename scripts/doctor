@@ -7,6 +7,17 @@ Usage: sh scripts/doctor [--profile full|minimal] [--dry-run]
 USAGE
 }
 
+validate_profile() {
+  case "$1" in
+    full|minimal) ;;
+    *)
+      echo "invalid profile: $1" >&2
+      usage >&2
+      exit 1
+      ;;
+  esac
+}
+
 profile="full"
 dry_run=0
 
@@ -31,6 +42,8 @@ while [ "$#" -gt 0 ]; do
       ;;
   esac
 done
+
+validate_profile "$profile"
 
 need() {
   if command -v "$1" >/dev/null 2>&1; then
