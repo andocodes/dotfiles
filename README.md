@@ -20,6 +20,9 @@ tmux-first, XDG-first dotfiles for macOS and Linux.
 gh repo clone andocodes/dotfiles ~/Projects/dotfiles
 cd ~/Projects/dotfiles
 ./scripts/bootstrap --profile full
+mise trust .mise.toml
+mise install
+mise run test-phase1
 ```
 
 ## Profiles
