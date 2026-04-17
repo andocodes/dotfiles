@@ -1,11 +1,11 @@
-{{- $profile := .defaults.profile -}}
+{{- $profile := .machine.defaults.profile -}}
 {{- if hasKey . "profile" -}}
 {{- $profile = .profile -}}
 {{- end -}}
-{{- $profileDefaults := index .defaults $profile -}}
+{{- $profileDefaults := index .features.defaults $profile -}}
 {{- if not $profileDefaults -}}
-{{- $profile = .defaults.profile -}}
-{{- $profileDefaults = index .defaults $profile -}}
+{{- $profile = .machine.defaults.profile -}}
+{{- $profileDefaults = index .features.defaults $profile -}}
 {{- end -}}
 {{- $gui := index $profileDefaults "gui" -}}
 {{- $docker := index $profileDefaults "docker" -}}

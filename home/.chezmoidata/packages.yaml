@@ -1,132 +1,133 @@
-darwin:
-  core:
-    - git
-    - curl
-    - zsh
-    - tmux
-    - neovim
-    - fzf
-    - ripgrep
-    - fd
-    - eza
-    - bat
-    - jq
-    - gh
-    - starship
-    - zoxide
-    - chezmoi
-  runtimes:
-    - go
-    - node
-    - python
-    - rust
-    - uv
-    - bun
-    - kubectl
-    - terramate
-  tui:
-    - lazygit
-    - yazi
-  docker:
-    - lazydocker
-  tailscale:
-    - tailscale
-debian:
-  core:
-    - git
-    - curl
-    - ca-certificates
-    - zsh
-    - tmux
-    - neovim
-    - fzf
-    - ripgrep
-    - fd-find
-    - eza
-    - bat
-    - jq
-    - gh
-    - starship
-    - zoxide
-    - chezmoi
-  runtimes:
-    - golang
-    - nodejs
-    - python3
-    - rustup
-    - uv
-    - kubectl
-    - terramate
-  tui:
-    - lazygit
-    - yazi
-  docker:
-    - lazydocker
-  tailscale:
-    - tailscale
-fedora:
-  core:
-    - git
-    - curl
-    - ca-certificates
-    - zsh
-    - tmux
-    - neovim
-    - fzf
-    - ripgrep
-    - fd-find
-    - eza
-    - bat
-    - jq
-    - gh
-    - starship
-    - zoxide
-    - chezmoi
-  runtimes:
-    - golang
-    - nodejs
-    - python3
-    - rustup
-    - uv
-    - kubectl
-    - terramate
-  tui:
-    - lazygit
-    - yazi
-  docker:
-    - lazydocker
-  tailscale:
-    - tailscale
-arch:
-  core:
-    - git
-    - curl
-    - ca-certificates
-    - zsh
-    - tmux
-    - neovim
-    - fzf
-    - ripgrep
-    - fd
-    - eza
-    - bat
-    - jq
-    - github-cli
-    - starship
-    - zoxide
-    - chezmoi
-  runtimes:
-    - go
-    - nodejs
-    - python
-    - rustup
-    - uv
-    - kubectl
-    - terramate
-  tui:
-    - lazygit
-    - yazi
-  docker:
-    - lazydocker
-  tailscale:
-    - tailscale
+packages:
+  darwin:
+    core:
+      - git
+      - curl
+      - zsh
+      - tmux
+      - neovim
+      - fzf
+      - ripgrep
+      - fd
+      - eza
+      - bat
+      - jq
+      - gh
+      - starship
+      - zoxide
+      - chezmoi
+    runtimes:
+      - go
+      - node
+      - python
+      - rust
+      - uv
+      - bun
+      - kubectl
+      - terramate
+    tui:
+      - lazygit
+      - yazi
+    docker:
+      - lazydocker
+    tailscale:
+      - tailscale
+  debian:
+    core:
+      - git
+      - curl
+      - ca-certificates
+      - zsh
+      - tmux
+      - neovim
+      - fzf
+      - ripgrep
+      - fd-find
+      - eza
+      - bat
+      - jq
+      - gh
+      - starship
+      - zoxide
+      - chezmoi
+    runtimes:
+      - golang
+      - nodejs
+      - python3
+      - rustup
+      - uv
+      - kubectl
+      - terramate
+    tui:
+      - lazygit
+      - yazi
+    docker:
+      - lazydocker
+    tailscale:
+      - tailscale
+  fedora:
+    core:
+      - git
+      - curl
+      - ca-certificates
+      - zsh
+      - tmux
+      - neovim
+      - fzf
+      - ripgrep
+      - fd-find
+      - eza
+      - bat
+      - jq
+      - gh
+      - starship
+      - zoxide
+      - chezmoi
+    runtimes:
+      - golang
+      - nodejs
+      - python3
+      - rustup
+      - uv
+      - kubectl
+      - terramate
+    tui:
+      - lazygit
+      - yazi
+    docker:
+      - lazydocker
+    tailscale:
+      - tailscale
+  arch:
+    core:
+      - git
+      - curl
+      - ca-certificates
+      - zsh
+      - tmux
+      - neovim
+      - fzf
+      - ripgrep
+      - fd
+      - eza
+      - bat
+      - jq
+      - github-cli
+      - starship
+      - zoxide
+      - chezmoi
+    runtimes:
+      - go
+      - nodejs
+      - python
+      - rustup
+      - uv
+      - kubectl
+      - terramate
+    tui:
+      - lazygit
+      - yazi
+    docker:
+      - lazydocker
+    tailscale:
+      - tailscale

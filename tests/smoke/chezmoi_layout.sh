@@ -20,13 +20,13 @@ done
   exit 1
 }
 
-grep -q '\.defaults\.profile' home/.chezmoiignore.tmpl || {
-  echo "home/.chezmoiignore.tmpl must read .defaults.profile" >&2
+grep -q '\.machine\.defaults\.profile' home/.chezmoiignore.tmpl || {
+  echo "home/.chezmoiignore.tmpl must read .machine.defaults.profile" >&2
   exit 1
 }
 
-grep -q 'index \.defaults \$profile' home/.chezmoiignore.tmpl || {
-  echo "home/.chezmoiignore.tmpl must read profile defaults from .defaults" >&2
+grep -q 'index \.features\.defaults \$profile' home/.chezmoiignore.tmpl || {
+  echo "home/.chezmoiignore.tmpl must read profile defaults from .features.defaults" >&2
   exit 1
 }
 
