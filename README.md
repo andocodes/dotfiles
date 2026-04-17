@@ -17,13 +17,15 @@ tmux-first, XDG-first dotfiles for macOS and Linux.
 ## Bootstrap
 
 ```sh
-gh repo clone andocodes/dotfiles ~/Projects/dotfiles
+git clone https://github.com/andocodes/dotfiles.git ~/Projects/dotfiles
 cd ~/Projects/dotfiles
 ./scripts/bootstrap --profile full
 mise trust .mise.toml
 mise install
 mise run test-phase1
 ```
+
+If you already have GitHub CLI installed, `gh repo clone andocodes/dotfiles ~/Projects/dotfiles` works too.
 
 ## Profiles
 
