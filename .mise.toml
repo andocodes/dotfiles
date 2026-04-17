@@ -1,0 +1,23 @@
+[tools]
+go = "latest"
+node = "lts"
+python = "3.13"
+rust = "stable"
+uv = "latest"
+bun = "latest"
+kubectl = "latest"
+terramate = "latest"
+
+[tasks.bootstrap]
+run = "sh scripts/bootstrap"
+
+[tasks.doctor]
+run = "sh scripts/doctor"
+
+[tasks.test-repo]
+run = """
+sh tests/smoke/repo_layout.sh
+sh tests/smoke/chezmoi_layout.sh
+sh tests/smoke/scripts.sh
+sh tests/smoke/mise.sh
+"""

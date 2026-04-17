@@ -1,0 +1,4 @@
+[settings]
+experimental = true
+status.missing_tools = "always"
+idiomatic_version_file_enable_tools = ["node", "python", "rust"]
